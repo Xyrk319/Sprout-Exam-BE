@@ -1,6 +1,7 @@
 from app.database.seeders.BaseSeeder import BaseSeeder
 from app.models.UserModel import User
 from app.models.RoleModel import Role
+from app.services.AuthServices import get_password_hash
 
 class UserSeeder(BaseSeeder):
     @staticmethod
@@ -22,9 +23,9 @@ class UserSeeder(BaseSeeder):
             user = User(
                 username=userData["username"],
                 email=userData["email"],
-                hashed_password=userData["hashed_password"]
+                hashed_password= get_password_hash(userData["hashed_password"])
             )
-            
+
             for role in userData["roles"]:
                 user.roles.append(role)
             db.add(user)
