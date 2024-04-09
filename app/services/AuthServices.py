@@ -48,17 +48,17 @@ def get_password_hash(password):
 def get_user(db: Session, token: str):
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
-        username: str = payload.get("sub")
-        if username is None:
+        email: str = payload.get("sub")
+        if email is None:
             return None
         # Query the user from the database
-        user = db.query(User).filter(User.username == username).first()
+        user = db.query(User).filter(User.email == email).first()
         return user
     except JWTError:
         return None
 
-def authenticate_user(username: str, password: str, db: Session):
-    user = db.query(User).filter(User.username == username).first()
+def authenticate_user(email: str, password: str, db: Session):
+    user = db.query(User).filter(User.email == email).first()
     if not user:
         return False
     if not verify_password(password, user.hashed_password):
@@ -87,11 +87,11 @@ def register(user: UserCreate, db: Session = Depends(get_db)):
     return {"username": db_user.username, "email": db_user.email, "access_token": create_access_token(data={"sub": db_user.username})}
 
 async def login(form_data: LoginSchema, db: Session = Depends(get_db)):
-    user = authenticate_user(form_data.username, form_data.password, db)
+    user = authenticate_user(form_data.email, form_data.password, db)
     if not user:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Incorrect username or password",
+            detail="Incorrect email or password",
         )
-    access_token = create_access_token(data={"sub": user.username}, expires_delta=timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES))
+    access_token = create_access_token(data={"sub": user.email}, expires_delta=timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES))
     return {"access_token": access_token, "token_type": "bearer"}
