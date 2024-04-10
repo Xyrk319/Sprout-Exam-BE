@@ -10,16 +10,16 @@ class EmployeeCreate(BaseModel):
     first_name: str
     last_name: str
     email: EmailStr
-    number_of_leaves: int
-    contract_end_date: datetime
+    number_of_leaves: Optional[int] = None
+    contract_end_date: Optional[datetime] = None
     employee_type: int
 
 class EmployeeUpdate(BaseModel):
     first_name: str = None
     last_name: str = None
     email: EmailStr = None
-    number_of_leaves: int = None
-    contract_end_date: datetime = None
+    number_of_leaves: Optional[int] = None
+    contract_end_date: Optional[datetime] = None
     employee_type: int = None
 
 class EmployeeRead(BaseModel):

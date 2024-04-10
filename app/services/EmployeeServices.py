@@ -1,4 +1,5 @@
 from sqlalchemy.orm import Session
+from fastapi import HTTPException
 from app.models.EmployeeModel import Employee
 from app.schemas.EmployeeSchema import EmployeeCreate, EmployeeUpdate 
 from app.enums.EmployeeTypes import EmployeeTypes
@@ -10,6 +11,10 @@ def get_all_employees(db: Session):
     return db.query(Employee).all()
 
 def create_employee(db: Session, employee_data: EmployeeCreate):
+    existing_employee = db.query(Employee).filter(Employee.email == employee_data.email).first()
+    if existing_employee:
+        raise HTTPException(status_code=400, detail="Email already exists!")
+    
     employee = Employee(**employee_data.dict())
     db.add(employee)
     db.commit()
