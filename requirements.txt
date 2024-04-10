@@ -1,12 +1,13 @@
-fastapi==0.75.0
+fastapi==0.110.1
 uvicorn==0.17.6
 sqlalchemy==1.4.27
 pymysql==1.0.2
 alembic==1.7.5
 python-dotenv==0.19.2
-PyJWT
 passlib
-pydantic
+pydantic==2.6.4
 pydantic[email]
 bcrypt==4.0.1
-jose
+PyJWT==2.3.0
+python-jose==3.3.0
+cryptography
