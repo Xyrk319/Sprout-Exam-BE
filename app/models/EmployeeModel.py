@@ -1,6 +1,7 @@
 from sqlalchemy import Table, Column, Integer, String, DateTime, ForeignKey
 from sqlalchemy.orm import relationship
 from app.models.Base import Base
+from app.enums.EmployeeTypes import EmployeeTypes
 
 employee_project_association = Table('employee_projects', Base.metadata,
     Column('employee_id', Integer, ForeignKey('employees.id')),
@@ -22,3 +23,7 @@ class Employee(Base):
     employee_type = Column(Integer)
     benefits = relationship ("Benefit", secondary=employee_benefit_association, back_populates="employees")
     projects = relationship("Project", secondary=employee_project_association, back_populates="employees")
+
+    def getEmployeeTypeText(self):
+        print("employee_type", self.employee_type);
+        return EmployeeTypes.fromValueToText(self.employee_type)
