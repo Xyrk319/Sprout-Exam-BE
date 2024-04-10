@@ -10,3 +10,4 @@ pydantic[email]
 bcrypt==4.0.1
 PyJWT==2.3.0
 python-jose==3.3.0
+cryptography
