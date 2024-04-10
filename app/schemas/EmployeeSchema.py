@@ -13,6 +13,8 @@ class EmployeeCreate(BaseModel):
     number_of_leaves: Optional[int] = None
     contract_end_date: Optional[datetime] = None
     employee_type: int
+    benefits: List[BenefitRead] = []
+    projects: List[ProjectRead] = []
 
 class EmployeeUpdate(BaseModel):
     first_name: str = None
@@ -21,13 +23,15 @@ class EmployeeUpdate(BaseModel):
     number_of_leaves: Optional[int] = None
     contract_end_date: Optional[datetime] = None
     employee_type: int = None
+    benefits: List[BenefitRead] = []
+    projects: List[ProjectRead] = []
 
 class EmployeeRead(BaseModel):
     id: int
     first_name: str
     last_name: str
     email: str
-    number_of_leaves: int
+    number_of_leaves: Optional[int]
     contract_end_date: Optional[datetime] = None
     employee_type: int
     benefits: List[BenefitRead] = []
