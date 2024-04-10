@@ -5,9 +5,6 @@ from app.database_conn import engine, SessionLocal
 from app.models import UserModel, RoleModel 
 from app.routes import auth, EmployeeRoutes, BenefitRoutes, ProjectRoutes
 
-UserModel.Base.metadata.create_all(bind=engine)
-RoleModel.Base.metadata.create_all(bind=engine)
-
 app = FastAPI()
 app.include_router(auth.router)
 app.include_router(EmployeeRoutes.router)
